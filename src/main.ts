@@ -9,7 +9,11 @@ async function bootstrap() {
   console.log(process.env.PORT)
   console.log(process.env.USER_PASSWORD)
   const app = await NestFactory.create(AppModule , {bodyParser: true});
-  app.enableCors();
+  app.enableCors({
+    origin: '*', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
+    allowedHeaders: 'Content-Type, Accept',
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
   SwaggerModule.setup('api',app,createDocument(app))
