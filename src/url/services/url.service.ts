@@ -20,14 +20,16 @@ export class UrlService {
         const shortUrl = shortid.generate();
         const newUrl = new this.urlModel({ fullUrl, shortUrl });
         await newUrl.save();
-        return {shortUrl: `http://localhost:${process.env.PORT || 3000}/url/${shortUrl}`};
+        return {shortUrl: shortUrl};
     }
 
-    async getOriginalUrl(shortUrl: string): Promise<string> {
+    async getOriginalUrl(shortUrl: string): Promise<{
+        fullUrl: string;
+    }> {
         const urlEntry = await this.urlModel.findOne({ shortUrl });
         if (!urlEntry) throw new NotFoundException(ERROR_MESSAGES.URL_NOT_FOUND);
         urlEntry.clicks++;
         await urlEntry.save();
-        return urlEntry.fullUrl;
+        return {fullUrl : urlEntry.fullUrl};
     }
 }

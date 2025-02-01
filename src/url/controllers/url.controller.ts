@@ -22,7 +22,9 @@ export class UrlController {
   async redirect(
     @Param('shortUrl')
     shortUrl: string,
-  ): Promise<string> {
+  ): Promise<{
+    fullUrl: string;
+}> {
     return await this.urlService.getOriginalUrl(shortUrl);
   }
 }
