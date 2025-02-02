@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Post } from '@nestjs/common';
 import { UrlService } from '../services/url.service';
 import { CreateUrlDto } from '../dto/create-url.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
@@ -14,8 +14,9 @@ export class UrlController {
   @ApiBody({ type: CreateUrlDto })
   async shorten(
     @Body() createUrlDto: CreateUrlDto,
+    @Headers('origin') origin: string,
   ): Promise<Omit<IUrl, 'fullUrl'>> {
-    return await this.urlService.shortenUrl(createUrlDto.fullUrl);
+    return await this.urlService.shortenUrl(createUrlDto.fullUrl,origin);
   }
 
   @Get(':shortUrl')

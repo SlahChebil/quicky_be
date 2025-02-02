@@ -13,14 +13,14 @@ export class UrlService {
         @InjectModel(Url.name) private readonly urlModel: Model<Url>
     ) {}
 
-    async shortenUrl(fullUrl: string): Promise<Omit<IUrl, 'fullUrl'>> {
+    async shortenUrl(fullUrl: string,origin : string): Promise<Omit<IUrl, 'fullUrl'>> {
         if(isBlockedDomain(fullUrl)){
             throw new NotFoundException(ERROR_MESSAGES.BLOCKED_DOMAIN);
         }
         const shortUrl = shortid.generate();
         const newUrl = new this.urlModel({ fullUrl, shortUrl });
         await newUrl.save();
-        return {shortUrl: shortUrl};
+        return {shortUrl: `${origin}/${shortUrl}`};
     }
 
     async getOriginalUrl(shortUrl: string): Promise<{
