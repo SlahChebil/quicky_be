@@ -1,5 +1,7 @@
 # URL Shortening Service (Backend)
-
+```diff
+! The free instance that I deployed in will spin down with inactivity, which can delay requests by 50 seconds or more
+```
 # Overview
 This is the backend for a simplified URL shortening service built with **NestJS** and **MongoDB**. The service allows users to shorten long URLs and redirect to the original URL when accessed. The backend exposes a RESTful API with endpoints for shortening URLs and handling redirects.
 
